@@ -1,10 +1,10 @@
 from flask import Flask, render_template, send_from_directory, Response
-#from controls import NorthChip, SouthChip
+from Controls import NorthChip, SouthChip
 import SerialController
 
 app = Flask(__name__)
 
-sController = SerialController.SerialController('/dev/ttyACM0')
+sController = SerialController.SerialController('/dev/ttyACM1')
 
 @app.route('/py/control/north/<int:nOp>/south/<int:sOp>')
 def control(nOp, sOp):
