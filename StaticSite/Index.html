@@ -1,0 +1,32 @@
+<html ng-app="craneStatic.app">
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
+        <script src="app.js"></script>
+        <link rel="stylesheet" href="main.css">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body ng-controller="craneController as ctrl">
+        <div>
+            
+        </div>
+        <div class="control-panel">
+            <div class="platform">
+                <div class="north direction">
+                    <button type="button" ng-click="ctrl.action('n')" class="btn btn-primary">N</button>
+                </div>
+                <div class="south direction">
+                    <button type="button" class="btn btn-primary">S</button>
+                </div>
+                <div class="east direction">
+                    <button type="button" class="btn btn-primary">E</button>
+                </div>
+                <div class="west direction">
+                    <button type="button" class="btn btn-primary">W</button>
+                </div>
+                <div class="stop direction">
+                    <button type="button" class="btn btn-danger">X</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
