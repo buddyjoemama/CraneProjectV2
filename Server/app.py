@@ -8,10 +8,15 @@ sController = SerialController.SerialController('/dev/ttyACM1')
 
 @app.route('/py/control/north/<int:nOp>/south/<int:sOp>')
 def control(nOp, sOp):
-    #north = NorthChip(nOp)
-    #south = SouthChip(sOp)    
+    north = NorthChip(nOp)
+    south = SouthChip(sOp)    
     
-    #sController.write(1 << north, 1 << south)
+    sController.write(1 << north, 1 << south)
+    return Response("Ok", status=200)
+
+@app.route('/py/control/stop')
+def stop():
+    sController.write(0, 0)
     return Response("Ok", status=200)
 
 if __name__ == '__main__':

@@ -50,6 +50,7 @@ void loop()
 		
 		char *buffer = new char[available];
 		Serial.readBytes(buffer, available);		
+    	Shift(buffer[0], buffer[1]);
 		//Serial.println(buffer);
 		 //Serial.println('buteavailable);
 		
@@ -159,9 +160,9 @@ void setup()
 {
 
 	
-	Serial.begin(9600);
-	//powerOnSelfTest();
+	//Serial.begin(9600);
+	powerOnSelfTest();
 	
-	//tcConfigure(sampleRate);
-	//tcStartCounter();
+	tcConfigure(sampleRate);
+	tcStartCounter();
 }
