@@ -4,7 +4,7 @@ import SerialController
 
 app = Flask(__name__)
 
-sController = SerialController.SerialController('/dev/ttyACM1')
+sController = SerialController.SerialController('/dev/tty')
 
 @app.route('/py/control/north/<int:nOp>/south/<int:sOp>')
 def control(nOp, sOp):
@@ -17,6 +17,10 @@ def control(nOp, sOp):
 @app.route('/py/control/stop')
 def stop():
     sController.write(0, 0)
+    return Response("Ok", status=200)
+
+@app.route('/py/ping')
+def ping():
     return Response("Ok", status=200)
 
 if __name__ == '__main__':
