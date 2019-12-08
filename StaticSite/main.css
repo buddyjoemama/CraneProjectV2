@@ -8,7 +8,17 @@ div.control-panel {
   bottom: 0px;
   border: 1px solid black;
   padding: 5px;
+  width: 100%;
   display: flex;
+  justify-content: space-around;
+}
+div.control-panel .hook,
+div.control-panel .boom {
+  border: 1px solid red;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 div.platform {
   border: 1px solid red;
