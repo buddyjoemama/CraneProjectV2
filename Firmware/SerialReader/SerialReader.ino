@@ -10,6 +10,8 @@ const int clockPin = 11;
 ////Pin connected to Data in (DS) of 74HC595
 const int dataPin = 12; 
 
+const int camCWPin = 9;
+const int camCCWPin = 6;
 // 9 and 6 are cab
 
 //
@@ -19,6 +21,8 @@ void powerOnSelfTest() {
 	pinMode(latchPin, OUTPUT);
 	pinMode(clockPin, OUTPUT);
 	pinMode(dataPin, OUTPUT);
+  pinMode(camCWPin, OUTPUT);
+  pinMode(camCCWPin, OUTPUT);
 
 	Shift(255, 255);
 	delay(3000);
@@ -51,10 +55,18 @@ void loop()
 		int available = Serial.available();
 		
 		char *buffer = new char[available];
-		Serial.readBytes(buffer, available);		
-    Shift(buffer[0], buffer[1]);
+		Serial.readBytes(buffer, available);
 
-    
+    // Just the relay
+    if(available == 1)
+    {
+      
+    }
+    else
+    {
+      Shift(buffer[0], buffer[1]);
+      HandleRotation(buffer[2]);
+    }    
 	}
 }
 
@@ -84,12 +96,19 @@ void HandleRotation(int val)
 	int pulseMs = val & B00111111;
 	int cwVal = val & CW;
 	int ccwVal = val & CCW;
-	
+
+  if(((val & CW) == CW) && ((val & CCW) == CCW))
+  {
+    digitalWrite(camCWPin, LOW);
+    digitalWrite(camCCWPin, LOW);
+  }
 	if((val & CW) == CW) {
-		
+		digitalWrite(camCWPin, HIGH);
+    digitalWrite(camCCWPin, LOW);
 	}
 	else if((val & CCW) == CCW) {
-		
+		digitalWrite(camCCWPin, HIGH);
+    digitalWrite(camCWPin, LOW);
 	}
 }
 

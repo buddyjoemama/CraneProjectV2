@@ -11,3 +11,6 @@ class SerialController(object):
     
     def write(self, north, south, extra):
         self.serConnection.write([north, south, extra])
+    
+    def writeOne(self, magnet):
+        self.serConnection.write([magnet])
