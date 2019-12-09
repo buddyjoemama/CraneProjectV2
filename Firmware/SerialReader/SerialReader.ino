@@ -10,6 +10,8 @@ const int clockPin = 11;
 ////Pin connected to Data in (DS) of 74HC595
 const int dataPin = 12; 
 
+// 9 and 6 are cab
+
 //
 // Cycles through all LEDS and motors.
 //
@@ -50,18 +52,10 @@ void loop()
 		
 		char *buffer = new char[available];
 		Serial.readBytes(buffer, available);		
-    	Shift(buffer[0], buffer[1]);
-		//Serial.println(buffer);
-		 //Serial.println('buteavailable);
-		
-		//if(Serial.readBytes(buffer, 3) > 0) {
-			//Shift(buffer[0], buffer[1]);
-			////HandleRotation(buffer[2]);
-			//rotation = buffer[2];
-		//}
-	}
+    Shift(buffer[0], buffer[1]);
 
-	//HandleRotation(rotation);
+    
+	}
 }
 
 void Shift(int northChip, int southChip)
@@ -97,8 +91,6 @@ void HandleRotation(int val)
 	else if((val & CCW) == CCW) {
 		
 	}
-
-	delay(pulseMs);
 }
 
 
@@ -145,7 +137,7 @@ void tcConfigure(int sampleRate)
 
 void TC5_Handler (void) 
 {
-	
+  //HandleRotation(0);
 	TC5->COUNT16.INTFLAG.bit.MC0 = 1; //don't change this, it's part of the timer code
 }
 
@@ -158,9 +150,7 @@ void tcStartCounter()
 uint32_t sampleRate = 500; //milliseconds
 void setup()
 {
-
-	
-	//Serial.begin(9600);
+  Serial.begin(9600);
 	powerOnSelfTest();
 	
 	tcConfigure(sampleRate);

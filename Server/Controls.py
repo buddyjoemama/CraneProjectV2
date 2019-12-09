@@ -1,16 +1,20 @@
 from enum import IntEnum
 
 class NorthChip(IntEnum):
-    CabCW = 0
-    CabCCW = 1
-    BoomUp = 2
-    BoomDown = 3
+    Nothing = -1
+    BoomUp = 0
+    BoomDown = 1
+    HookUp = 2
+    HookDown = 3
 
 class SouthChip(IntEnum):
-    HookUp = 0
-    HookDown = 1
-    PlatformEast = 2
-    PlatformWest = 3
-    PlatformNorth = 4
-    PlatformSouth = 5
-    Magnet = 6
+    Nothing = -1
+    PlatformEast = 0
+    PlatformWest = 1
+    PlatformNorth = 2
+    PlatformSouth = 3
+
+class ExtraChip(IntEnum):
+    Nothing = -1
+    CabCW = 0
+    CabCCW = 1

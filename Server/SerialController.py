@@ -9,5 +9,5 @@ class SerialController(object):
         self.port = p
         self.serConnection = serial.Serial(self.port)
     
-    def write(self, north, south):
-        self.serConnection.write([north, south])
+    def write(self, north, south, extra):
+        self.serConnection.write([north, south, extra])
