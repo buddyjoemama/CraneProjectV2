@@ -13,12 +13,17 @@ div.control-panel {
   justify-content: space-around;
 }
 div.control-panel .hook,
-div.control-panel .boom {
+div.control-panel .boom,
+div.control-panel .cab,
+div.control-panel .magnet {
   border: 1px solid red;
   padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+div.control-panel .magnet {
+  justify-content: center;
 }
 div.platform {
   border: 1px solid red;
@@ -51,4 +56,7 @@ div.platform {
 }
 .direction {
   margin: 5px;
+}
+.op-name {
+  text-align: center;
 }
