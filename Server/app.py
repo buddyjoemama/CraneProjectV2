@@ -32,7 +32,7 @@ def control(nOp, sOp, eOp):
 
 @app.route('/py/control/magnet/<int:mOp>')
 def magnetControl(mOp):
-    sController.writeOne(mOp)
+    sController.writeOne(mOp) 
     return Response("Ok", status=200)
 
 @app.route('/py/control/stop')
