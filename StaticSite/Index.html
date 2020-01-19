@@ -5,44 +5,44 @@
         <link rel="stylesheet" href="main.css">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
-    <body ng-controller="craneController as ctrl">
+    <body ng-controller="craneController as $ctrl">
         
         <div class="control-panel">
             <div class="platform">
                 <div class="north direction">
-                    <button type="button" ng-click="ctrl.action('n')" class="btn btn-primary">N</button>
+                    <button type="button" ng-click="$ctrl.action(0, -1, -1)" class="btn btn-primary">N</button>
                 </div>
                 <div class="south direction">
-                    <button type="button" class="btn btn-primary">S</button>
+                    <button type="button" class="btn btn-primary" ng-click="$ctrl.action(1, -1, -1)">S</button>
                 </div>
                 <div class="east direction">
-                    <button type="button" class="btn btn-primary">E</button>
+                    <button type="button" class="btn btn-primary" ng-click="$ctrl.action(2, -1, -1)">E</button>
                 </div>
                 <div class="west direction">
-                    <button type="button" class="btn btn-primary">W</button>
+                    <button type="button" class="btn btn-primary" ng-click="$ctrl.action(3, -1, -1)">W</button>
                 </div>
                 <div class="stop direction">
-                    <button type="button" class="btn btn-danger">X</button>
+                    <button type="button" class="btn btn-danger" ng-click="$ctrl.stop()">X</button>
                 </div>
             </div>
             <div class="hook">
-                <button type="button" class="btn btn-primary">Up</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(-1, 0, -1)">Up</button>
                 <div class="op-name">Hook</div>
-                <button type="button" class="btn btn-primary">Dn</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(-1, 1, -1)">Dn</button>
             </div>
             <div class="boom">
-                <button type="button" class="btn btn-primary">Up</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(4, -1, -1)">Up</button>
                 <div class="op-name">Boom</div>
-                <button type="button" class="btn btn-primary">Dn</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(5, -1, -1)">Dn</button>
             </div>
             <div class="cab">
-                <button type="button" class="btn btn-primary">CW</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(-1, -1, 0)">CW</button>
                 <div class="op-name">Cab</div>
-                <button type="button" class="btn btn-primary">CCW</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(-1, -1, 1)">CCW</button>
             </div>
             <div class="magnet">
                 <div>Magnet</div>
-                <button type="button" class="btn btn-primary">On</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.toggleRelay()">On</button>
             </div>
         </div>    
     </body>

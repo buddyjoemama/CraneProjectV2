@@ -1,10 +1,11 @@
 from flask import Flask, render_template, send_from_directory, Response
+from flask_cors import CORS
 from Controls import NorthChip, SouthChip, ExtraChip
 import SerialController
 
 app = Flask(__name__)
-
-sController = SerialController.SerialController('/dev/ttyACM0')
+cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
+#sController = SerialController.SerialController('/dev/ttyACM0')
 
 @app.route('/py/control/north/<int:nOp>/south/<int:sOp>/extra/<int:eOp>')
 def control(nOp, sOp, eOp):
@@ -27,17 +28,17 @@ def control(nOp, sOp, eOp):
     elif(extra == ExtraChip.CabCW):
         vExtra = 1 << 6
 
-    sController.write(vNorth, vSouth, vExtra)
+    #sController.write(vNorth, vSouth, vExtra)
     return Response("Ok", status=200)
 
 @app.route('/py/control/magnet/<int:mOp>')
 def magnetControl(mOp):
-    sController.writeOne(mOp) 
+    #sController.writeOne(mOp) 
     return Response("Ok", status=200)
 
 @app.route('/py/control/stop')
 def stop():
-    sController.write(0, 0, 0)
+    #sController.write(0, 0, 0)
     return Response("Ok", status=200)
 
 @app.route('/py/ping')

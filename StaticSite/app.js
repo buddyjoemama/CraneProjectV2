@@ -1,9 +1,24 @@
 angular.module('craneStatic.app', [])
-    .controller('craneController', function() {
-      var ctrl = this;
+    .controller('craneController', function($http) {
+      var $ctrl = this;
+        $ctrl.location = "http://localhost:5000/py/control/";
+        var on = 0;
 
-        ctrl.action = function(dir) {
-            console.log(dir);
+        $ctrl.action = function(n, s, e) {
+            $http.get($ctrl.location + "north/" + n + "/south/" + s + "/extra/" + e);
+        }
+        
+        $ctrl.toggleRelay = function() {
+            if(on == 0)
+                on = 1;
+            else
+                on = 0;
+            
+            $http.get($ctrl.location + "magnet/" + on);
+        }
+        
+        $ctrl.stop = function() {
+            $http.get($ctrl.location + "stop");
         }
     })
     .run(function() {

@@ -145,7 +145,7 @@ void tcConfigure(int sampleRate)
 
   // Configure interrupt request
   NVIC_DisableIRQ(TC5_IRQn);
-  NVIC_ClearPendingIRQ(TC5_IRQn);
+  NVIC_ClearPendingIRQ(TC5_IRQn); 
   NVIC_SetPriority(TC5_IRQn, 0);
   NVIC_EnableIRQ(TC5_IRQn);
 

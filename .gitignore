@@ -6,3 +6,5 @@ env/
 node_modules/
 dist/
 venv/
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
