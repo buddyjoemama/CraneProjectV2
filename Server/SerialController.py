@@ -14,3 +14,25 @@ class SerialController(object):
     
     def writeOne(self, magnet):
         self.serConnection.write([magnet])
+
+    def platform(self, north, south, east, west):
+        val = 0
+
+        if(north):
+            val |= (1 << 3)
+        if(south):
+            val |= (1 << 2)
+        if(east):
+            val |= (1 << 1)
+        if(west):
+            val |= 1
+        
+        self.serConnection.write([val, 0, 0, 0])
+
+        line = []
+
+        while True:
+            for c in self.serConnection.read():
+                line.append(c)
+                if c == '\n':
+                    return line
