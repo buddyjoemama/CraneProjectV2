@@ -5,7 +5,7 @@ import SerialController
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
-sController = SerialController.SerialController('/dev/ttyACM0')
+#sController = SerialController.SerialController('/dev/ttyACM0')
 
 @app.route('/py/control/platform/north/<int:north>/south/<int:south>/east/<int:east>/west/<int:west>')
 def platform(north, east, south, west):
@@ -59,7 +59,7 @@ def stop():
     #sController.write(0, 0, 0)
     return Response("Ok", status=200)
 
-@app.route('/py/ping')  
+@app.route('/py/control/ping')  
 def ping():
     return Response("Ok", status=200)
 
