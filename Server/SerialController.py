@@ -15,6 +15,9 @@ class SerialController(object):
     def writeOne(self, magnet):
         self.serConnection.write([magnet])
 
+    def off(self):
+        self.serConnection.write([0, 0, 0, 0])
+
     def platform(self, north, south, east, west):
         val = 0
 
