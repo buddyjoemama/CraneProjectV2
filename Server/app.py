@@ -14,9 +14,9 @@ def on_button_pressed(button):
         sController.cameraDown()
     elif (button.name == 'button_y'):
         sController.cameraUp()
-    elif (button.name == 'button_x'):
-        sController.cameraCW()
     elif (button.name == 'button_b'):
+        sController.cameraCW()
+    elif (button.name == 'button_x'):
         sController.cameraCCW()
 
 def on_button_released(button):

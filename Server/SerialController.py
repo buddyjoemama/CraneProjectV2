@@ -19,16 +19,16 @@ class SerialController(object):
         self.serConnection.write([0, 0, 0, 0])
 
     def cameraUp(self):
-        self.serConnection.write([0, (1 << 2), (1 << 4), 0])
+        self.serConnection.write([0, (1 << 2), (1 << 7), 0])
 
     def cameraDown(self):
-        self.serConnection.write([0, (1 << 3), (1 << 4), 0])
+        self.serConnection.write([0, (1 << 3), (1 << 7), 0])
 
     def cameraCW(self):
-        self.serConnection.write([0, (1 << 5), (1 << 4), 0])
+        self.serConnection.write([0, (1 << 5), (1 << 7), 0])
 
     def cameraCCW(self):
-        self.serConnection.write([0, (1 << 4), (1 << 4), 0])
+        self.serConnection.write([0, (1 << 4), (1 << 7), 0])
     
     def cameraOff(self):
         self.serConnection.write([0, 0, 0, 0])
