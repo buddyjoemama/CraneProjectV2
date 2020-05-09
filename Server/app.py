@@ -8,7 +8,7 @@ from xbox360controller import Xbox360Controller
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
 
-sController = SerialController.SerialController('/dev/ttyACM1')
+sController = SerialController.SerialController('/dev/ttyACM0')
 def on_button_pressed(button):
     if (button.name == 'button_a'):
         sController.cameraDown()
@@ -65,9 +65,9 @@ try:
         #controller.axis_l.when_moved = on_axis_moved
         #controller.axis_r.when_moved = on_axis_moved
 
-        signal.pause()
+        #signal.pause()
 except KeyboardInterrupt:
     pass
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000, host='0.0.0.0')
