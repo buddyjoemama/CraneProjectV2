@@ -6,7 +6,9 @@
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
     <body ng-controller="craneController as $ctrl">
-        
+        <div style="text-align:center;">
+            <img src="http://localhost/{{$ctrl.cam}}" width="800" height="600">
+        </div>
         <div class="control-panel">
             <div class="platform">
                 <div class="north direction">
@@ -43,6 +45,11 @@
             <div class="magnet">
                 <div>Magnet</div>
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.toggleRelay()">On</button>
+            </div>
+            <div class="cab">
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = 'cam1'">One</button>
+                <div class="op-name">Cam</div>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = 'cam2'">Two</button>
             </div>
         </div>    
     </body>
