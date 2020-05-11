@@ -5,10 +5,22 @@ angular.module('craneStatic.app', [])
         $ctrl.cam = "cam1";
         var on = 0;
 
-        $ctrl.action = function(n, s, e) {
-            $http.get($ctrl.location + "north/" + n + "/south/" + s + "/extra/" + e);
+        $ctrl.platform = function(n, s, e, w) {
+            $http.get($ctrl.location + "platform/north/" + n + "/south/" + s + "/east/" + e + "/west/" + w);
         }
         
+        $ctrl.hookUp = function() {
+            $http.get($ctrl.location + "hook/up/1/down/0");
+        }
+
+        $ctrl.hookDown = function() {
+            $http.get($ctrl.location + "hook/up/0/down/1");
+        }
+
+        $ctrl.hookStop = function() {
+            $http.get($ctrl.location + "hook/up/0/down/0");
+        }
+
         $ctrl.toggleRelay = function() {
             if(on == 0)
                 on = 1;
@@ -19,7 +31,7 @@ angular.module('craneStatic.app', [])
         }
         
         $ctrl.stop = function() {
-            $http.get($ctrl.location + "stop");
+            $http.get($ctrl.location + "off");
         }
     })
     .run(function() {
