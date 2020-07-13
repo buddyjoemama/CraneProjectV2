@@ -3,10 +3,10 @@ var path = require('path');
 module.exports = {
   //...
   devServer: {
-    contentBase: path.join(__dirname, 'StaticSite'),
+    contentBase: path.join(__dirname, 'src'),
     compress: true,
     port: 9000,
-    index: 'StaticSite/Index.html',
+    index: 'src/Index.html',
     watchContentBase: true
   }
 };

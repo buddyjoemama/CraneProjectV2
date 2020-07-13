@@ -3,7 +3,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "start:dev": "webpack-dev-server"
+    "start:dev": "lessc src/main.less src/main.css & webpack-dev-server"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -15,6 +15,7 @@
     "grunt-contrib-uglify": "~0.5.0",
     "grunt-contrib-watch": "~0.6.1",
     "html-webpack-plugin": "^4.3.0",
+    "less-loader": "^6.2.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
