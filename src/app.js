@@ -2,7 +2,7 @@ angular.module('craneStatic.app', [])
     .controller('craneController', function($http) {
       var $ctrl = this;
         $ctrl.location = "http://localhost/py/control/";
-        $ctrl.cam = "cam1";
+        $ctrl.cam = "/cam/1";
         var on = 0;
 
         $ctrl.platform = function(n, s, e, w) {

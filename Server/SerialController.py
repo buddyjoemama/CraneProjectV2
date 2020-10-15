@@ -1,17 +1,17 @@
 import serial
 
+
 class SerialController(object):
-    
     port = '/dev/ttyACM0'
     serConnection = None
 
     def __init__(self, p):
         self.port = p
         self.serConnection = serial.Serial(self.port)
-    
+
     def write(self, north, south, extra):
         self.serConnection.write([north, south, extra])
-    
+
     def writeOne(self, magnet):
         self.serConnection.write([magnet])
 
@@ -29,14 +29,14 @@ class SerialController(object):
 
     def cameraCCW(self):
         self.serConnection.write([0, (1 << 4), (1 << 7), 0])
-    
+
     def cameraOff(self):
         self.serConnection.write([0, 0, 0, 0])
 
     def hookUpDown(self, down, up):
-        if(down):
+        if (down):
             self.hookDown()
-        elif(up):
+        elif (up):
             self.hookUp()
         else:
             self.off()
@@ -48,18 +48,18 @@ class SerialController(object):
         self.serConnection.write([(1 << 7), 0, 0, 0])
 
     def magnet(self, val):
-            self.serConnection.write([0, 0, 0, val])
+        self.serConnection.write([0, 0, 0, val])
 
     def platform(self, north, south, east, west):
         val = 0
 
-        if(north):
+        if (north):
             val |= (1 << 3)
-        if(south):
+        if (south):
             val |= (1 << 2)
-        if(east):
+        if (east):
             val |= (1 << 1)
-        if(west):
+        if (west):
             val |= 1
-        
+
         self.serConnection.write([val, 0, 0, 0])

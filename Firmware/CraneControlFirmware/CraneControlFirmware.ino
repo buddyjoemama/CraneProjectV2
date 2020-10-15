@@ -20,10 +20,10 @@ const int magPin = 1;
 const int ccwOutputPin = 5;
 const int cwOutputPin = 6;
 
-const int camCcwOutputPin = 2;
-const int camCwOutputPin = 3;
-const int camUpOutputPin = 4;
-const int camDnOutputPin = 9;
+const int camCcwOutputPin = 9;
+const int camCwOutputPin = 4;
+const int camUpOutputPin = 3;
+const int camDnOutputPin = 2;
 
 void setup() {
   Serial.begin(9600);
@@ -129,31 +129,31 @@ void loop() {
           digitalWrite(camDnOutputPin, HIGH);
           digitalWrite(camUpOutputPin, LOW);
         }
-        else if((rot & CAM_UP) == CAM_UP)
+        if((rot & CAM_UP) == CAM_UP)
         {
           Serial.println("cam up");
           digitalWrite(camDnOutputPin, LOW);
           digitalWrite(camUpOutputPin, HIGH);
         }
-        else if((rot & CAM_CW) == CAM_CW)
+        if((rot & CAM_CW) == CAM_CW)
         {
           Serial.println("cam cw");
           digitalWrite(camCcwOutputPin, LOW);
           digitalWrite(camCwOutputPin, HIGH);
         }
-        else if((rot & CAM_CCW) == CAM_CCW)
+        if((rot & CAM_CCW) == CAM_CCW)
         {
           Serial.println("cam ccw");
           digitalWrite(camCcwOutputPin, HIGH);
           digitalWrite(camCwOutputPin, LOW);
         }
-        else if((rot & PLAT_CW) == PLAT_CW)
+        if((rot & PLAT_CW) == PLAT_CW)
         {
           Serial.println("plat cw");
           digitalWrite(ccwOutputPin, LOW);
           currentDirection = cwOutputPin;
         }
-        else if((rot & PLAT_CCW) == PLAT_CCW)
+        if((rot & PLAT_CCW) == PLAT_CCW)
         {
           Serial.println("plat ccw");
           digitalWrite(cwOutputPin, LOW);
