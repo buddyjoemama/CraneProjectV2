@@ -25,6 +25,7 @@ def hook(up, down):
 
 @app.route('/py/control/boom/up/<up>/down/<down>')
 def boom(up, down):
+    sController.boomUpDown(up, down)
     return Response("Ok", status=200)
 
 

@@ -2,7 +2,7 @@ angular.module('craneStatic.app', [])
     .controller('craneController', function($http) {
       var $ctrl = this;
         $ctrl.location = "http://localhost/py/control/";
-        $ctrl.cam = "/cam/1";
+        $ctrl.cam = "1";
         var on = 0;
 
         $ctrl.platform = function(n, s, e, w) {
@@ -19,6 +19,18 @@ angular.module('craneStatic.app', [])
 
         $ctrl.hookStop = function() {
             $http.get($ctrl.location + "hook/up/0/down/0");
+        }
+
+        $ctrl.boomUp = function() {
+            $http.get($ctrl.location + "boom/up/1/down/0");
+        }
+
+        $ctrl.boomDown = function () {
+            $http.get($ctrl.location + "boom/up/0/down/1");
+        }
+
+        $ctrl.boomStop = function () {
+            $http.get($ctrl.location + "boom/up/0/down/0");
         }
 
         $ctrl.toggleRelay = function() {

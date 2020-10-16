@@ -7,7 +7,7 @@
     </head>
     <body ng-controller="craneController as $ctrl">
         <div style="text-align:center;">
-            <img src="http://localhost/{{$ctrl.cam}}" width="800" height="600">
+            <img src="http://localhost/cam/{{$ctrl.cam}}" width="800" height="600">
         </div>
         <div class="control-panel">
             <div class="platform">
@@ -33,9 +33,9 @@
                 <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.hookStop()" ng-mousedown="$ctrl.hookDown()">Dn</button>
             </div>
             <div class="boom">
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(4, -1, -1)">Up</button>
+                <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.boomStop()" ng-mousedown="$ctrl.boomUp()">Up</button>
                 <div class="op-name">Boom</div>
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(5, -1, -1)">Dn</button>
+                <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.boomStop()" ng-mousedown="$ctrl.boomDown()">Dn</button>
             </div>
             <div class="cab">
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.action(-1, -1, 0)">CW</button>
@@ -47,9 +47,9 @@
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.toggleRelay()">On</button>
             </div>
             <div class="cab">
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = 'cam1'">One</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '1'">One</button>
                 <div class="op-name">Cam</div>
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = 'cam2'">Two</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '2'">Two</button>
             </div>
         </div>    
     </body>
