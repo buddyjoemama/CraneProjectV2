@@ -65,6 +65,27 @@ void setup() {
   digitalWrite(camCwOutputPin, LOW);
   digitalWrite(camUpOutputPin, LOW);
   digitalWrite(camDnOutputPin, LOW);
+
+  for(int i = 0; i < 8; i++) {
+    //Shift(1 << i);
+    //delay(1500);
+  }
+
+  Shift(1); // boom up
+  delay(1000);
+  Shift(2); // N
+  delay(1000);
+  Shift(1 << 2); // S
+  delay(1000);
+  Shift(1 << 3); // E
+  delay(1000);
+  Shift(1 << 4); // W
+  delay(1000);
+  Shift(1 << 5); //hook up
+  delay(1000);
+  Shift(1 << 6); // hook down
+  delay(1000);
+  Shift(1 << 7); // boom down 
 }
 
 uint8_t CAM_DOWN = B00001000;
@@ -76,7 +97,7 @@ uint8_t PLAT_CW = B00000010;
 uint8_t PLAT_CCW = B00000001;
 
 // 4 byte protocol: [b0][b1][b2][b3]
-// b0 = [hd,hu,bd,bu,n,s,e,w]
+// b0 = [bd,hd,hu,w,e,s,n,bu]
 // b1 = [x,x,cam_cw,cam_ccw,cam_d,cam_u,plat_cw,plat_ccw] = rot
 // b2 = [v,v,v,v,v,v,v,v] = speed
 // b3 = [x,x,x,x,x,x,x,0|1] = mag (0 or 1)

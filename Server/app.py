@@ -17,13 +17,13 @@ def platform(north, east, south, west):
     return Response(val, status=200)
 
 
-@app.route('/py/control/hook/up/<up>/down/<down>')
+@app.route('/py/control/hook/up/<int:up>/down/<int:down>')
 def hook(up, down):
     sController.hookUpDown(up, down)
     return Response("Ok", status=200)
 
 
-@app.route('/py/control/boom/up/<up>/down/<down>')
+@app.route('/py/control/boom/up/<int:up>/down/<int:down>')
 def boom(up, down):
     sController.boomUpDown(up, down)
     return Response("Ok", status=200)
