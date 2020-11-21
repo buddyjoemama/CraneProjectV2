@@ -12,7 +12,7 @@ void Shift(int northChip);
 const int latchPin = 8;
 //Pin connected to clock pin (SH_CP) of 74HC595
 const int clockPin = 10;
-////Pin connected to Data in (DS) of 74HC595
+////Pin connected to Data in (DS) o f 74HC595
 const int dataPin = 7;
 
 const int magPin = 1;
@@ -65,27 +65,6 @@ void setup() {
   digitalWrite(camCwOutputPin, LOW);
   digitalWrite(camUpOutputPin, LOW);
   digitalWrite(camDnOutputPin, LOW);
-
-  for(int i = 0; i < 8; i++) {
-    //Shift(1 << i);
-    //delay(1500);
-  }
-
-  Shift(1); // boom up
-  delay(1000);
-  Shift(2); // N
-  delay(1000);
-  Shift(1 << 2); // S
-  delay(1000);
-  Shift(1 << 3); // E
-  delay(1000);
-  Shift(1 << 4); // W
-  delay(1000);
-  Shift(1 << 5); //hook up
-  delay(1000);
-  Shift(1 << 6); // hook down
-  delay(1000);
-  Shift(1 << 7); // boom down 
 }
 
 uint8_t CAM_DOWN = B00001000;
