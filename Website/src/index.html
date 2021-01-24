@@ -7,7 +7,7 @@
     </head>
     <body ng-controller="craneController as $ctrl">
         <div style="text-align:center;">
-            <img src="http://localhost:8081/{{$ctrl.cam}}" width="800" height="600">
+            <img src="http://localhost:8081/0" width="800" height="600">
         </div>
         <div class="control-panel">
             <div class="platform">
@@ -47,9 +47,9 @@
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.toggleRelay()">On</button>
             </div>
             <div class="cab">
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '1'">One</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '0'">One</button>
                 <div class="op-name">Cam</div>
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '2'">Two</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '1'">Two</button>
             </div>
         </div>    
     </body>

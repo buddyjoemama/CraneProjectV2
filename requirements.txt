@@ -1,0 +1,4 @@
+flask
+flask_cors
+xbox360controller
+pyserial

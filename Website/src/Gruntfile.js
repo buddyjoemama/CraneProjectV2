@@ -13,8 +13,8 @@ module.exports = function(grunt) {
     // Task configuration.
     less: {
         dist: {
-            src: 'src/main.less',
-            dest: '/src/main.css'
+            src: './main.less',
+            dest: './main.css'
         }
     }
   });
