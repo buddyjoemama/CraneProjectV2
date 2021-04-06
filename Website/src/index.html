@@ -7,7 +7,7 @@
     </head>
     <body ng-controller="craneController as $ctrl">
         <div style="text-align:center;">
-            <img src="http://localhost:8081/0" width="800" height="600">
+            <img src="http://localhost/cam/1" width="800" height="600">
         </div>
         <div class="control-panel">
             <div class="platform">
@@ -24,8 +24,8 @@
                     <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(0, 0, 0, 1)">W</button>
                 </div>
                 <div class="stop direction">
-                    <button type="button" class="btn btn-danger" ng-mousedown="$ctrl.stop()" ng-mouseup="$ctrl.stop()">X</button>
-                </div>
+                    <button type="button" class="btn btn-danger" ng-click="$ctrl.stop()">X</button>
+                </div>                
             </div>
             <div class="hook">
                 <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.hookStop()" ng-mousedown="$ctrl.hookUp()">Up</button>
@@ -38,9 +38,10 @@
                 <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.boomStop()" ng-mousedown="$ctrl.boomDown()">Dn</button>
             </div>
             <div class="cab">
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(-1, -1, 0)">CW</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.platformCW()">CW</button>
                 <div class="op-name">Cab</div>
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.action(-1, -1, 1)">CCW</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.platformCCW()">CCW</button>
+                <input type="range" min="0" max="255" step="1" value="125" ng-model="$ctrl.speed" ng-mouseup="$ctrl.updateSpeed()">
             </div>
             <div class="magnet">
                 <div>Magnet</div>

@@ -3,7 +3,6 @@ from flask_cors import CORS
 from Controls import NorthChip, SouthChip, ExtraChip
 import SerialController
 import signal
-from xbox360controller import Xbox360Controller
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
@@ -29,8 +28,9 @@ def boom(up, down):
     return Response("Ok", status=200)
 
 
-@app.route('/py/control/rotation/cw/<cw>/ccw/<ccw>')
-def rotate(cw, ccw):
+@app.route('/py/control/rotation/cw/<int:cw>/ccw/<int:ccw>/speed/<int:speed>')
+def rotate(cw, ccw, speed):
+    sController.rotation(cw, ccw, speed)
     return Response("Ok", status=200)
 
 
@@ -48,6 +48,26 @@ def off():
 
 @app.route('/py/control/ping')
 def ping():
+    return Response("Ok", status=200)
+
+@app.route('/py/control/cam/up')
+def camUp():
+    sController.cameraUp()
+    return Response("Ok", status=200)
+
+@app.route('/py/control/cam/down')
+def camDown():
+    sController.cameraDown()
+    return Response("Ok", status=200)
+
+@app.route('/py/control/cam/cw')
+def cameraCW():
+    sController.cameraCW()
+    return Response("Ok", status=200)
+
+@app.route('/py/control/cam/ccw')
+def cameraCCW():
+    sController.cameraCCW()
     return Response("Ok", status=200)
 
 

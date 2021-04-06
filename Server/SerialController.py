@@ -33,6 +33,20 @@ class SerialController(object):
     def cameraOff(self):
         self.serConnection.write([0, 0, 0, 0])
 
+    def platformCW(self, speed):
+        self.serConnection.write([0, (1 << 1), speed, 0])
+
+    def platformCCW(self, speed):
+        self.serConnection.write([0, 1, speed, 0])
+
+    def rotation(self, cw, ccw, speed):
+        if(cw == 1):
+            self.platformCW(speed)
+        elif(ccw == 1):
+            self.platformCCW(speed)
+        else:
+            self.off()
+
     def hookUpDown(self, down, up):
         if (down == 1):
             self.hookDown()
@@ -74,6 +88,6 @@ class SerialController(object):
         if (east):
             val |= (1 << 3)
         if (west):
-            val |= 4
+            val |= (1 << 4)
 
         self.serConnection.write([val, 0, 0, 0])

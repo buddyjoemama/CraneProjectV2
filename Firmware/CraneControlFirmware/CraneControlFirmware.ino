@@ -17,7 +17,7 @@ const int dataPin = 7;
 
 const int magPin = 1;
 
-const int ccwOutputPin = 5;
+const int ccwOutputPin = 5;  
 const int cwOutputPin = 6;
 
 const int camCcwOutputPin = 9;
@@ -111,6 +111,8 @@ void loop() {
       else 
       {
         Shift(buffer[0]);
+        
+        Serial.println(rot);
               
         // turn it all off
         if(rot == 0) {
