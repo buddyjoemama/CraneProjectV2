@@ -2,12 +2,22 @@ import serial
 
 
 class SerialController(object):
-    port = '/dev/ttyACM0'
+    port = '/dev/ttyACM'
     serConnection = None
 
-    def __init__(self, p):
-        self.port = p
-        self.serConnection = serial.Serial(self.port)
+    def __init__(self):
+       id = 0
+       while id < 10:
+           try:
+               self.port = '/dev/ttyACM' + str(id)
+               self.serConnection = serial.Serial(self.port)
+               break
+           except:
+                id += 1
+
+    def test(self):
+        self.serConnection.read()
+        return true
 
     def write(self, north, south, extra):
         self.serConnection.write([north, south, extra])

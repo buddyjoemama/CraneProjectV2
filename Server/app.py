@@ -7,7 +7,7 @@ import signal
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
 
-sController = SerialController.SerialController('/dev/ttyACM0')
+sController = SerialController.SerialController()
 
 
 @app.route('/py/control/platform/north/<int:north>/south/<int:south>/east/<int:east>/west/<int:west>')
