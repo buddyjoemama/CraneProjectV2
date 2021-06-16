@@ -12,19 +12,19 @@
         <div class="control-panel">
             <div class="platform">
                 <div class="north direction">
-                    <button type="button" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(1, 0, 0, 0)" class="btn btn-primary">N</button>
+                    <button type="button" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.cameraUp()" class="btn btn-primary">Up</button>
                 </div>
                 <div class="south direction">
-                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(0, 1, 0, 0)">S</button>
+                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.cameraDown()">Dn</button>
                 </div>
                 <div class="east direction">
-                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(0, 0, 1, 0)">E</button>
+                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.cameraCW()">CW</button>
                 </div>
                 <div class="west direction">
-                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(0, 0, 0, 1)">W</button>
+                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.cameraCCW()">CCW</button>
                 </div>
                 <div class="stop direction">
-                    <button type="button" class="btn btn-danger" ng-click="$ctrl.stop()">X</button>
+                    <button type="button" class="btn btn-danger" ng-click="$ctrl.stop()">Off</button>
                 </div>                
             </div>
             <div class="hook">
@@ -47,7 +47,7 @@
                 <div>Magnet</div>
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.toggleRelay()">On</button>
             </div>
-            <div class="cab">
+            <div class="cab" style="display:none;">
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '0'">One</button>
                 <div class="op-name">Cam</div>
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '1'">Two</button>

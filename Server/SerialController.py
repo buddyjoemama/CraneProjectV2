@@ -15,10 +15,6 @@ class SerialController(object):
            except:
                 id += 1
 
-    def test(self):
-        self.serConnection.read()
-        return true
-
     def write(self, north, south, extra):
         self.serConnection.write([north, south, extra])
 

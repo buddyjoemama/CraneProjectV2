@@ -9,9 +9,8 @@ cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
 
 sController = SerialController.SerialController()
 
-
 @app.route('/py/control/platform/north/<int:north>/south/<int:south>/east/<int:east>/west/<int:west>')
-def platform(north, east, south, west):
+def platform(north, east, south, west):    
     val = sController.platform(north, east, south, west)
     return Response(val, status=200)
 
