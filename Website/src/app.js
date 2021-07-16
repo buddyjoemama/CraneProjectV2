@@ -49,19 +49,19 @@ angular.module('craneStatic.app', [])
         }
 
         $ctrl.cameraUp = function() {
-            $http.get($ctrl.location + "cam/cw");
+            $http.get($ctrl.location + "cam/up");
         }
 
         $ctrl.cameraCW = function() {
-            $http.get($ctrl.location + "cam/down")
+            $http.get($ctrl.location + "cam/cw")
         }
 
         $ctrl.cameraCCW = function() {
-            $http.get($ctrl.location + "cam/up")
+            $http.get($ctrl.location + "cam/ccw")
         }
 
         $ctrl.cameraDown = function() {
-            $http.get($ctrl.location + "cam/ccw")
+            $http.get($ctrl.location + "cam/down")
         }
 
         $ctrl.toggleRelay = function() {

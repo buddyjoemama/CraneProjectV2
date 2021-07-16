@@ -56,12 +56,12 @@ VOLUME /usr/local/etc/motion
 # R/W needed for motion to update Video & images
 VOLUME /var/lib/motion
 
-CMD test -e /usr/local/etc/motion/motion.conf || \
-    cp /usr/local/etc/motion/motion-dist.conf /usr/local/etc/motion/motion.conf
+#CMD test -e /usr/local/etc/motion/motion.conf || \
+#    cp /usr/local/etc/motion/motion-dist.conf /usr/local/etc/motion/motion.conf
 
 COPY motion.conf /usr/local/etc/motion/motion.conf
 COPY camera1.conf /etc/motion/conf.d/camera1.conf
-copy camera2.conf /etc/motion/conf.d/camera2.conf
+COPY camera2.conf /etc/motion/conf.d/camera2.conf
 
 CMD [ "motion", "-n" ]
 #docker run -d --network host --name motion_prod --device=/dev/video0 --device=/dev/video2 motion

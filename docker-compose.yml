@@ -1,0 +1,24 @@
+services:
+  web:
+    image: nginx
+    ports: 
+      - "88:80"
+    volumes: 
+      - ./Website/src/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./Website/src:/var/www/html
+  camera:
+    # devices: 
+    #   - "/dev/video0"
+    #   - "/dev/video1"
+    build: 
+      context: ./Camera
+      dockerfile: Dockerfile
+    network_mode: "host"
+  server:
+    devices: 
+      - "/dev/ttyACM0"
+    ports: 
+      - "5000:5000"
+    build: 
+      context: ./Server
+      dockerfile: Dockerfile
