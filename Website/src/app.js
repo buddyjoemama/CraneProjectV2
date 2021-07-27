@@ -45,7 +45,8 @@ angular.module('craneStatic.app', [])
         }
 
         $ctrl.updateSpeed = function() {
-            $ctrl.actionFunction();
+            if(!!$ctrl.actionFunction)
+                $ctrl.actionFunction();
         }
 
         $ctrl.cameraUp = function() {
@@ -75,6 +76,7 @@ angular.module('craneStatic.app', [])
         
         $ctrl.stop = function() {
             $http.get($ctrl.location + "off");
+            $ctrl.actionFunction = null;
         }
     })
     .run(function() {

@@ -7,9 +7,9 @@ services:
       - ./Website/src/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./Website/src:/var/www/html
   camera:
-    # devices: 
-    #   - "/dev/video0"
-    #   - "/dev/video1"
+    devices: 
+      - "/dev/video0:/dev/video1"
+      - "/dev/video2:/dev/video2"
     build: 
       context: ./Camera
       dockerfile: Dockerfile
