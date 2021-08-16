@@ -25,8 +25,12 @@ const int camCwOutputPin = 4;
 const int camUpOutputPin = 3;
 const int camDnOutputPin = 2;
 
+void handleMessage(char* buffer);
+
 void setup() {
   Serial.begin(9600);
+
+  while(!Serial);
 
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
@@ -87,15 +91,37 @@ uint8_t currentDirection = 0;
 uint8_t rot = 0;
 uint8_t mag = 0;
 
+const unsigned int MAX_LENGTH = 4;
+
 void loop() {
-  
-  char buffer[4];
+  while(Serial.available() > 0) {
 
-  if(Serial.available() > 0) {
+    static char message[MAX_LENGTH];
+    static unsigned int message_pos = 0;
+
+    char inByte = Serial.read();
     
-    int numBytes = Serial.readBytes(buffer, 4);
+    if(message_pos <= MAX_LENGTH) {
+      message[message_pos] = inByte;
+      message_pos += 1;
+      
+      if(message_pos >= MAX_LENGTH) {
+        handleMessage(message);
+        message_pos = 0;    
+      }
+    }
+  }
+}
 
-    if(numBytes == 4) {
+void handleMessage(char* buffer) {
+  
+  //char buffer[4];
+
+  //if(Serial.available() > 0) {
+    
+    //int numBytes = Serial.readBytes(buffer, 4);
+
+    //if(numBytes == 4) {
       
       rot = (uint8_t)buffer[1];
       currentSpeed = (uint8_t)buffer[2];
@@ -173,8 +199,8 @@ void loop() {
           Serial.println("Mag off");
         }
       }
-    }
-  }
+   // }
+  //}
 }
 
 void Shift(int northChip)
