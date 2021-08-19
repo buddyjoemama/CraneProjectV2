@@ -62,3 +62,7 @@ div.platform {
 .test {
   max-width: 100px;
 }
+
+button.btn:active {
+  background-color: red !important;
+}

@@ -1,7 +1,7 @@
 angular.module('craneStatic.app', [])
     .controller('craneController', function($http, $scope) {
       var $ctrl = this;
-        $ctrl.location = "http://localhost/py/control/";
+        $ctrl.location = "/py/control/";
         $ctrl.cam = "1";
         $ctrl.speed = 125;
         var on = 0;

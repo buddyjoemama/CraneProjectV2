@@ -51,22 +51,22 @@ def ping():
 
 @app.route('/py/control/cam/up')
 def camUp():
-    sController.cameraUp()
+    #sController.cameraUp()
     return Response("Ok", status=200)
 
 @app.route('/py/control/cam/down')
 def camDown():
-    sController.cameraDown()
+    #sController.cameraDown()
     return Response("Ok", status=200)
 
 @app.route('/py/control/cam/cw')
 def cameraCW():
-    sController.cameraCW()
+    sController.cameraDown()
     return Response("Ok", status=200)
 
 @app.route('/py/control/cam/ccw')
 def cameraCCW():
-    sController.cameraCCW()
+    sController.cameraUp()
     return Response("Ok", status=200)
 
 
