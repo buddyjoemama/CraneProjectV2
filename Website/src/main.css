@@ -24,6 +24,7 @@ div.control-panel .magnet {
 div.control-panel .magnet {
   justify-content: center;
 }
+div.camera-controls,
 div.platform {
   border: 1px solid red;
   display: grid;

@@ -36,12 +36,17 @@ angular.module('craneStatic.app', [])
         
         $ctrl.platformCW = function() {            
             $ctrl.actionFunction = $ctrl.platformCW;
-            $http.get($ctrl.location + "rotation/cw/1/ccw/0/speed/" + $ctrl.speed);
+            $http.get($ctrl.location + "rotation/cw/1/ccw/0/speed/128");
         }
 
         $ctrl.platformCCW = function() {
             $ctrl.actionFunction = $ctrl.platformCCW;
-            $http.get($ctrl.location + "rotation/cw/0/ccw/1/speed/" + $ctrl.speed);
+            $http.get($ctrl.location + "rotation/cw/0/ccw/1/speed/128");
+        }
+
+        $ctrl.platformStop = function() {
+            $ctrl.actionFunction = $ctrl.platformStop;
+            $http.get($ctrl.location + "rotation/cw/0/ccw/0/speed/128");
         }
 
         $ctrl.updateSpeed = function() {
