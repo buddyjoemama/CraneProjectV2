@@ -15,7 +15,7 @@ div.control-panel .hook,
 div.control-panel .boom,
 div.control-panel .cab,
 div.control-panel .magnet {
-  border: 1px solid red;
+  border: 1px solid black;
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@ div.control-panel .magnet {
 }
 div.camera-controls,
 div.platform {
-  border: 1px solid red;
+  border: 1px solid black;
   display: grid;
   align-items: stretch;
   grid-template-columns: auto auto auto;
@@ -66,4 +66,9 @@ div.platform {
 
 button.btn:active {
   background-color: red !important;
+}
+
+button.btn-primary:disabled {
+  background-color: gray;
+  border-color: gray;
 }

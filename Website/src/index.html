@@ -48,26 +48,23 @@
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.toggleRelay()">On</button>
             </div>
             <div class="cab">
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '1'">One</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cameraOne()">PT</button>
                 <div class="op-name">Cam</div>
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.cam = '2'">P&T</button>
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.cameraTwo()">OH</button>
             </div>
             <div class="camera-controls">
                 <div class="north direction">
-                    <button type="button" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(1, 0, 0, 0)" class="btn btn-primary">N</button>
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" ng-mouseup="$ctrl.stop()" ng-mousedown="" class="btn btn-primary">Up</button>
                 </div>
                 <div class="south direction">
-                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(0, 1, 0, 0)">S</button>
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="">Down</button>
                 </div>
                 <div class="east direction">
-                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(0, 0, 1, 0)">E</button>
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="">Right</button>
                 </div>
                 <div class="west direction">
-                    <button type="button" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="$ctrl.platform(0, 0, 0, 1)">W</button>
-                </div>
-                <div class="stop direction">
-                    <div>P&T</div>
-                </div>                
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.stop()" ng-mousedown="">Left</button>
+                </div>            
             </div>
         </div>    
     </body>
