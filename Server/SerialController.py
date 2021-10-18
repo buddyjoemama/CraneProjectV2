@@ -53,33 +53,33 @@ class SerialController(object):
         else:
             self.off()
 
-    def hookUpDown(self, down, up):
-        if (down == 1):
-            self.hookDown()
-        elif (up == 1):
+    def hookUpDown(self, up, down):
+        if (up == 1):
             self.hookUp()
+        elif (down == 1):
+            self.hookDown()
         else:
             self.off()
 
-    def boomUpDown(self, down, up):
-        if down == 1:
-            self.boomDown()
-        elif up == 1:
+    def boomUpDown(self, up, down):
+        if up == 1:
             self.boomUp()
+        elif down == 1:
+            self.boomDown()
         else:
             self.off()
 
     def hookUp(self):
-        self.serConnection.write([(1 << 5), 0, 0, 0])
-
-    def hookDown(self):
         self.serConnection.write([(1 << 6), 0, 0, 0])
 
+    def hookDown(self):
+        self.serConnection.write([(1 << 5), 0, 0, 0])
+
     def boomUp(self):
-        self.serConnection.write([1, 0, 0, 0])
+        self.serConnection.write([(1 << 7), 0, 0, 0])
 
     def boomDown(self):
-        self.serConnection.write([(1 << 7), 0, 0, 0])
+        self.serConnection.write([1, 0, 0, 0])
 
     def magnet(self, val):
         self.serConnection.write([0, 0, 0, val])
@@ -97,3 +97,6 @@ class SerialController(object):
             val |= (1 << 4)
 
         self.serConnection.write([val, 0, 0, 0])
+
+    def readResult(self):
+        return self.serConnection.read_all()

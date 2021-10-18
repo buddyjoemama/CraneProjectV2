@@ -3,7 +3,6 @@
 
 /*End of auto generated code by Atmel studio */
 
-
 //Beginning of Auto generated function prototypes by Atmel Studio
 void Shift(int northChip);
 //End of Auto generated function prototypes by Atmel Studio
@@ -17,7 +16,7 @@ const int dataPin = 7;
 
 const int magPin = 1;
 
-const int ccwOutputPin = 5;  
+const int ccwOutputPin = 5;
 const int cwOutputPin = 6;
 
 const int camCcwOutputPin = 9;
@@ -25,12 +24,14 @@ const int camCwOutputPin = 4;
 const int camUpOutputPin = 3;
 const int camDnOutputPin = 2;
 
-void handleMessage(char* buffer);
+void handleMessage(char *buffer);
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
 
-  while(!Serial);
+  while (!Serial)
+    ;
 
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
@@ -39,19 +40,20 @@ void setup() {
   pinMode(ccwOutputPin, OUTPUT);
   pinMode(cwOutputPin, OUTPUT);
 
-  for(int i = 0; i <= 10; i++) {
+  for (int i = 0; i <= 10; i++)
+  {
     digitalWrite(i, LOW);
   }
 
-  Shift(255);
+  /*Shift(255);
   delay(2000);
   Shift(0);
   delay(2000);
-  
+
   analogWrite(ccwOutputPin, 255);
   delay(1000);
   digitalWrite(ccwOutputPin, LOW);
-  
+
   analogWrite(cwOutputPin, 255);
   delay(1000);
   digitalWrite(cwOutputPin, LOW);
@@ -59,12 +61,13 @@ void setup() {
   digitalWrite(magPin, HIGH);
   delay(1500);
   digitalWrite(magPin, LOW);
+  */
 
   pinMode(camCcwOutputPin, OUTPUT);
   pinMode(camCwOutputPin, OUTPUT);
   pinMode(camUpOutputPin, OUTPUT);
   pinMode(camDnOutputPin, OUTPUT);
-  
+
   digitalWrite(camCcwOutputPin, LOW);
   digitalWrite(camCwOutputPin, LOW);
   digitalWrite(camUpOutputPin, LOW);
@@ -79,8 +82,17 @@ uint8_t CAM_CCW = B00010000;
 uint8_t PLAT_CW = B00000010;
 uint8_t PLAT_CCW = B00000001;
 
+uint8_t BOOM_UP   = B10000000;
+uint8_t HOOK_UP   = B01000000;
+uint8_t HOOK_DOWN = B00100000;
+uint8_t WEST      = B00010000;
+uint8_t EAST      = B00001000;
+uint8_t SOUTH     = B00000100;
+uint8_t NORTH     = B00000010;
+uint8_t BOOM_DOWN = B00000001;
+
 // 4 byte protocol: [b0][b1][b2][b3]
-// b0 = [bd,hd,hu,w,e,s,n,bu]
+// b0 = [bu,hu,hd,w,e,s,n,bd]
 // b1 = [x,x,cam_cw,cam_ccw,cam_d,cam_u,plat_cw,plat_ccw] = rot
 // b2 = [v,v,v,v,v,v,v,v] = speed
 // b3 = [x,x,x,x,x,x,x,0|1] = mag (0 or 1)
@@ -93,114 +105,141 @@ uint8_t mag = 0;
 
 const unsigned int MAX_LENGTH = 4;
 
-void loop() {
-  while(Serial.available() > 0) {
+void loop()
+{
+  while (Serial.available() > 0)
+  {
 
     static char message[MAX_LENGTH];
     static unsigned int message_pos = 0;
 
     char inByte = Serial.read();
-    
-    if(message_pos <= MAX_LENGTH) {
+
+    if (message_pos <= MAX_LENGTH)
+    {
       message[message_pos] = inByte;
       message_pos += 1;
-      
-      if(message_pos >= MAX_LENGTH) {
+
+      if (message_pos >= MAX_LENGTH)
+      {
         handleMessage(message);
-        message_pos = 0;    
+        message_pos = 0;
       }
     }
   }
 }
 
-void handleMessage(char* buffer) {
-  
-  //char buffer[4];
+void handleMessage(char *buffer)
+{
+  rot = (uint8_t)buffer[1];
+  currentSpeed = (uint8_t)buffer[2];
+  mag = (uint8_t)buffer[3];
 
-  //if(Serial.available() > 0) {
+  // magic number signaling a change to speed
+  if (mag == 255)
+  {
+    currentSpeed = (uint8_t)buffer[2];
+    analogWrite(currentDirection, currentSpeed);
+  }
+  else
+  {
+    Shift(buffer[0]);
+
+    // turn it all off
+    if (rot == 0)
+    {
+      currentSpeed = 0;
+      digitalWrite(camDnOutputPin, LOW);
+      digitalWrite(camUpOutputPin, LOW);
+      digitalWrite(camCcwOutputPin, LOW);
+      digitalWrite(camCwOutputPin, LOW);
+    }
+    else
+    {
+      HandleRotation(rot, currentSpeed);
+    }
+
+    if(mag == 1)
+    {
+      digitalWrite(magPin, HIGH);
+    }
+    else if(mag == 0) 
+    {
+      digitalWrite(magPin, LOW);
+    }
     
-    //int numBytes = Serial.readBytes(buffer, 4);
+    String rawByteZero = String((uint8_t)buffer[0], BIN);
+    String rawByteOne = String(rot, BIN);
+    String rawByteTwo = String(currentSpeed, BIN);
+    String rawByteThree = String(mag, BIN);
+    
+    // 4 byte protocol: [b0][b1][b2][b3]
+    // b0 = [bu,hu,hd,w,e,s,n,bd]
+    // b1 = [x,x,cam_cw,cam_ccw,cam_d,cam_u,plat_cw,plat_ccw] = rot
+    // b2 = [v,v,v,v,v,v,v,v] = speed
+    // b3 = [x,x,x,x,x,x,x,0|1] = mag (0 or 1)
 
-    //if(numBytes == 4) {
-      
-      rot = (uint8_t)buffer[1];
-      currentSpeed = (uint8_t)buffer[2];
-      mag = (uint8_t)buffer[3];
+    uint8_t byteZero = (uint8_t)buffer[0];
+    
+    String result = "{\"result\": {";
+    result = String(result + "\"[bd,hd,hu,w,e,s,n,bu]\":" + rawByteZero + ",");
+    result = String(result + "\"[x,x,cam_cw, cam_ccw, cam_d, cam_u, plat_cw, plat_ccw]\":" + rawByteOne + ",");
+    result = String(result + "\"[v,v,v,v,v,v,v,v] (speed)\":" + rawByteTwo + ",");
+    result = String(result + "\"[x,x,x,x,x,x,0|1] (magnet)\":" + rawByteThree + "},");
+      result = String(result + "\"details\":{");
+      result = String(result + "\"boom-down\":" + ((byteZero & BOOM_DOWN) == BOOM_DOWN));
+      result = String(result + ",\"boom-up\":" + ((byteZero & BOOM_UP) == BOOM_UP));
+      result = String(result + ",\"hook-down\":" + ((byteZero & HOOK_DOWN) == HOOK_DOWN));
+      result = String(result + ",\"hook-up\":" + ((byteZero & HOOK_UP) == HOOK_UP));
+      result = String(result + ",\"plat-north\":" + ((byteZero & NORTH) == NORTH));
+      result = String(result + ",\"plat-east\":" + ((byteZero & EAST) == EAST));
+      result = String(result + ",\"plat-south\":" + ((byteZero & SOUTH) == SOUTH));
+      result = String(result + ",\"plat-west\":" + ((byteZero & WEST) == WEST));
+      result = String(result + "}");
+    result = String(result + "}");
+    
+    Serial.println(result);
+  }
+}
 
-      // magic number signaling a change to speed
-      if(mag == 255) 
-      {      
-        currentSpeed = (uint8_t)buffer[2];
-        analogWrite(currentDirection, currentSpeed);      
-        Serial.println("Updating speed");
-      }
-      else 
-      {
-        Shift(buffer[0]);
-        
-        Serial.println(rot);
-              
-        // turn it all off
-        if(rot == 0) {
-          currentSpeed = 0;  
-          digitalWrite(camDnOutputPin, LOW);
-          digitalWrite(camUpOutputPin, LOW);
-          digitalWrite(camCcwOutputPin, LOW);
-          digitalWrite(camCwOutputPin, LOW);
+void HandleRotation(uint8_t rot, uint8_t currentSpeed)
+{
+  if ((rot & CAM_DOWN) == 8)
+  {
+    digitalWrite(camDnOutputPin, HIGH);
+    digitalWrite(camUpOutputPin, LOW);
+  }
+  else if ((rot & CAM_UP) == CAM_UP)
+  {
+    digitalWrite(camDnOutputPin, LOW);
+    digitalWrite(camUpOutputPin, HIGH);
+  }
+  else if ((rot & CAM_CW) == CAM_CW)
+  {
+    digitalWrite(camCcwOutputPin, LOW);
+    digitalWrite(camCwOutputPin, HIGH);
+  }
+  else if ((rot & CAM_CCW) == CAM_CCW)
+  {
+    digitalWrite(camCcwOutputPin, HIGH);
+    digitalWrite(camCwOutputPin, LOW);
+  }
+  else if ((rot & PLAT_CW) == PLAT_CW)
+  {
+    digitalWrite(ccwOutputPin, LOW);
+    currentDirection = cwOutputPin;
+  }
+  else if ((rot & PLAT_CCW) == PLAT_CCW)
+  {
+    digitalWrite(cwOutputPin, LOW);
+    currentDirection = ccwOutputPin;
+  }
 
-          Serial.println("Rotation off");
-        }
-        
-        if((rot & CAM_DOWN) == 8)
-        {
-          Serial.println("cam down");
-          digitalWrite(camDnOutputPin, HIGH);
-          digitalWrite(camUpOutputPin, LOW);
-        }
-        if((rot & CAM_UP) == CAM_UP)
-        {
-          Serial.println("cam up");
-          digitalWrite(camDnOutputPin, LOW);
-          digitalWrite(camUpOutputPin, HIGH);
-        }
-        if((rot & CAM_CW) == CAM_CW)
-        {
-          Serial.println("cam cw");
-          digitalWrite(camCcwOutputPin, LOW);
-          digitalWrite(camCwOutputPin, HIGH);
-        }
-        if((rot & CAM_CCW) == CAM_CCW)
-        {
-          Serial.println("cam ccw");
-          digitalWrite(camCcwOutputPin, HIGH);
-          digitalWrite(camCwOutputPin, LOW);
-        }
-        if((rot & PLAT_CW) == PLAT_CW)
-        {
-          Serial.println("plat cw");
-          digitalWrite(ccwOutputPin, LOW);
-          currentDirection = cwOutputPin;
-        }
-        if((rot & PLAT_CCW) == PLAT_CCW)
-        {
-          Serial.println("plat ccw");
-          digitalWrite(cwOutputPin, LOW);
-          currentDirection = ccwOutputPin;
-        }
-        
-        analogWrite(currentDirection, currentSpeed);    
-        
-        if(mag == 1) {
-          digitalWrite(magPin, HIGH);
-          Serial.println("Mag on");
-        }
-        else if(mag == 0) {
-          digitalWrite(magPin, LOW);
-          Serial.println("Mag off");
-        }
-      }
-   // }
-  //}
+  if (currentDirection != 0)
+  {
+    analogWrite(currentDirection, currentSpeed);
+    currentDirection = 0;
+  }
 }
 
 void Shift(int northChip)
