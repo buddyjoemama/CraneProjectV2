@@ -155,10 +155,13 @@ void handleMessage(char *buffer)
       digitalWrite(camUpOutputPin, LOW);
       digitalWrite(camCcwOutputPin, LOW);
       digitalWrite(camCwOutputPin, LOW);
+      
+      digitalWrite(ccwOutputPin, LOW);
+      digitalWrite(cwOutputPin, LOW);
     }
     else
     {
-    //  rotationResult = HandleRotation(rot, currentSpeed);
+      rotationResult = HandleRotation(rot, currentSpeed);
     }
 
     if(mag == 1)
@@ -220,7 +223,7 @@ String HandleRotation(uint8_t rot, uint8_t currentSpeed)
 {
   String rotationResult = "\"rotation\": {";
   
-  if ((rot & CAM_DOWN) == 8)
+  if ((rot & CAM_DOWN) == CAM_DOWN)
   {
     digitalWrite(camDnOutputPin, HIGH);
     digitalWrite(camUpOutputPin, LOW);
