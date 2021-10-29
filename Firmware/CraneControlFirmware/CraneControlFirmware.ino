@@ -4,7 +4,7 @@
 /*End of auto generated code by Atmel studio */
 
 //Beginning of Auto generated function prototypes by Atmel Studio
-void Shift(int northChip);
+void Shift(uint8_t northChip);
 //End of Auto generated function prototypes by Atmel Studio
 
 //Pin connected to latch pin (ST_CP) of 74HC595
@@ -74,12 +74,12 @@ void setup()
   digitalWrite(camDnOutputPin, LOW);
 }
 
-uint8_t CAM_DOWN = B00001000;
-uint8_t CAM_UP = B00000100;
-uint8_t CAM_CW = B00100000;
-uint8_t CAM_CCW = B00010000;
+uint8_t CAM_CW =   B10000000;
+uint8_t CAM_CCW =  B01000000;
+uint8_t CAM_DOWN = B00100000;
+uint8_t CAM_UP =   B00010000;
 
-uint8_t PLAT_CW = B00000010;
+uint8_t PLAT_CW =  B00000010;
 uint8_t PLAT_CCW = B00000001;
 
 uint8_t BOOM_UP   = B10000000;
@@ -93,7 +93,7 @@ uint8_t BOOM_DOWN = B00000001;
 
 // 4 byte protocol: [b0][b1][b2][b3]
 // b0 = [bu,hu,hd,w,e,s,n,bd]
-// b1 = [x,x,cam_cw,cam_ccw,cam_d,cam_u,plat_cw,plat_ccw] = rot
+// b1 = [cam_cw,cam_ccw,cam_d,cam_u,plat_cw,x,xplat_ccw] = rot
 // b2 = [v,v,v,v,v,v,v,v] = speed
 // b3 = [x,x,x,x,x,x,x,0|1] = mag (0 or 1)
 
@@ -131,6 +131,8 @@ void loop()
 
 void handleMessage(char *buffer)
 {
+  String rotationResult = "\"rotation\": {}";
+  
   rot = (uint8_t)buffer[1];
   currentSpeed = (uint8_t)buffer[2];
   mag = (uint8_t)buffer[3];
@@ -156,7 +158,7 @@ void handleMessage(char *buffer)
     }
     else
     {
-      HandleRotation(rot, currentSpeed);
+    //  rotationResult = HandleRotation(rot, currentSpeed);
     }
 
     if(mag == 1)
@@ -175,26 +177,35 @@ void handleMessage(char *buffer)
     
     // 4 byte protocol: [b0][b1][b2][b3]
     // b0 = [bu,hu,hd,w,e,s,n,bd]
-    // b1 = [x,x,cam_cw,cam_ccw,cam_d,cam_u,plat_cw,plat_ccw] = rot
+    // b1 = [cam_cw,cam_ccw,cam_d,cam_u, x, x, plat_cw,plat_ccw] = rot
     // b2 = [v,v,v,v,v,v,v,v] = speed
     // b3 = [x,x,x,x,x,x,x,0|1] = mag (0 or 1)
 
     uint8_t byteZero = (uint8_t)buffer[0];
+    boolean boomDown = ((byteZero & BOOM_DOWN) == BOOM_DOWN);
+    boolean boomUp = ((byteZero & BOOM_UP) == BOOM_UP);
+    boolean hookDown = ((byteZero & HOOK_DOWN) == HOOK_DOWN);
+    boolean hookUp = ((byteZero & HOOK_UP) == HOOK_UP);
+    boolean platNorth = ((byteZero & NORTH) == NORTH);
+    boolean platEast = ((byteZero & EAST) == EAST);
+    boolean platSouth = ((byteZero & SOUTH) == SOUTH);
+    boolean platWest = ((byteZero & WEST) == WEST);
     
     String result = "{\"result\": {";
     result = String(result + "\"[bd,hd,hu,w,e,s,n,bu]\":" + rawByteZero + ",");
-    result = String(result + "\"[x,x,cam_cw, cam_ccw, cam_d, cam_u, plat_cw, plat_ccw]\":" + rawByteOne + ",");
+    result = String(result + "\"[cam_cw, cam_ccw, cam_d, cam_u, x, x, plat_cw, plat_ccw]\":" + rawByteOne + ",");
     result = String(result + "\"[v,v,v,v,v,v,v,v] (speed)\":" + rawByteTwo + ",");
     result = String(result + "\"[x,x,x,x,x,x,0|1] (magnet)\":" + rawByteThree + "},");
       result = String(result + "\"details\":{");
-      result = String(result + "\"boom-down\":" + ((byteZero & BOOM_DOWN) == BOOM_DOWN));
-      result = String(result + ",\"boom-up\":" + ((byteZero & BOOM_UP) == BOOM_UP));
-      result = String(result + ",\"hook-down\":" + ((byteZero & HOOK_DOWN) == HOOK_DOWN));
-      result = String(result + ",\"hook-up\":" + ((byteZero & HOOK_UP) == HOOK_UP));
-      result = String(result + ",\"plat-north\":" + ((byteZero & NORTH) == NORTH));
-      result = String(result + ",\"plat-east\":" + ((byteZero & EAST) == EAST));
-      result = String(result + ",\"plat-south\":" + ((byteZero & SOUTH) == SOUTH));
-      result = String(result + ",\"plat-west\":" + ((byteZero & WEST) == WEST));
+      //result = String(result + "\"boom-down\":" + boomDown);
+      //result = String(result + ",\"boom-up\":" + boomUp);
+      //result = String(result + ",\"hook-down\":" + hookDown);
+      //result = String(result + ",\"hook-up\":" + hookUp);
+      //result = String(result + ",\"plat-north\":" + platNorth);
+      //result = String(result + ",\"plat-east\":" + platEast);
+      //result = String(result + ",\"plat-south\":" + platSouth);    
+      //result = String(result + ",\"plat-west\":" + platWest);
+      //result = String(result + "," + rotationResult);
       result = String(result + "}");
     result = String(result + "}");
     
@@ -202,37 +213,48 @@ void handleMessage(char *buffer)
   }
 }
 
-void HandleRotation(uint8_t rot, uint8_t currentSpeed)
+/**
+* Handle the camera direction and return the result as a json string.
+*/
+String HandleRotation(uint8_t rot, uint8_t currentSpeed)
 {
+  String rotationResult = "\"rotation\": {";
+  
   if ((rot & CAM_DOWN) == 8)
   {
     digitalWrite(camDnOutputPin, HIGH);
     digitalWrite(camUpOutputPin, LOW);
+    rotationResult = String(rotationResult + "\"cameraDown\": true");
   }
   else if ((rot & CAM_UP) == CAM_UP)
   {
     digitalWrite(camDnOutputPin, LOW);
     digitalWrite(camUpOutputPin, HIGH);
+    rotationResult = String(rotationResult + "\"cameraUp\": true");
   }
   else if ((rot & CAM_CW) == CAM_CW)
   {
     digitalWrite(camCcwOutputPin, LOW);
     digitalWrite(camCwOutputPin, HIGH);
+    rotationResult = String(rotationResult + "\"cameraClockwise\": true");
   }
   else if ((rot & CAM_CCW) == CAM_CCW)
   {
     digitalWrite(camCcwOutputPin, HIGH);
     digitalWrite(camCwOutputPin, LOW);
+    rotationResult = String(rotationResult + "\"cameraCounterClockwise\": true");
   }
   else if ((rot & PLAT_CW) == PLAT_CW)
   {
     digitalWrite(ccwOutputPin, LOW);
     currentDirection = cwOutputPin;
+    rotationResult = String(rotationResult + "\"platformClockwise\": true");
   }
   else if ((rot & PLAT_CCW) == PLAT_CCW)
   {
     digitalWrite(cwOutputPin, LOW);
     currentDirection = ccwOutputPin;
+    rotationResult = String(rotationResult + "\"platformCounterClockwise\": true");
   }
 
   if (currentDirection != 0)
@@ -240,9 +262,14 @@ void HandleRotation(uint8_t rot, uint8_t currentSpeed)
     analogWrite(currentDirection, currentSpeed);
     currentDirection = 0;
   }
+  
+  return String(rotationResult + "}");
 }
 
-void Shift(int northChip)
+/*
+* Shift out a byte of data.
+*/ 
+void Shift(uint8_t northChip)
 {
   digitalWrite(latchPin, LOW);
   shiftOut(dataPin, clockPin, MSBFIRST, northChip);
