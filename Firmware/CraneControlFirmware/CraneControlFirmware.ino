@@ -28,50 +28,39 @@ void handleMessage(char *buffer);
 
 void setup()
 {
-  Serial.begin(9600);
-
-  while (!Serial)
-    ;
-
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
   pinMode(magPin, OUTPUT);
   pinMode(ccwOutputPin, OUTPUT);
   pinMode(cwOutputPin, OUTPUT);
-
+  
+  pinMode(camCcwOutputPin, OUTPUT);
+  pinMode(camCwOutputPin, OUTPUT);
+  pinMode(camUpOutputPin, OUTPUT);
+  pinMode(camDnOutputPin, OUTPUT);
+  
+  Shift(0);
+  
   for (int i = 0; i <= 10; i++)
   {
     digitalWrite(i, LOW);
   }
 
-  /*Shift(255);
-  delay(2000);
-  Shift(0);
-  delay(2000);
-
-  analogWrite(ccwOutputPin, 255);
-  delay(1000);
-  digitalWrite(ccwOutputPin, LOW);
-
-  analogWrite(cwOutputPin, 255);
-  delay(1000);
-  digitalWrite(cwOutputPin, LOW);
-
-  digitalWrite(magPin, HIGH);
-  delay(1500);
-  digitalWrite(magPin, LOW);
-  */
-
-  pinMode(camCcwOutputPin, OUTPUT);
-  pinMode(camCwOutputPin, OUTPUT);
-  pinMode(camUpOutputPin, OUTPUT);
-  pinMode(camDnOutputPin, OUTPUT);
-
   digitalWrite(camCcwOutputPin, LOW);
   digitalWrite(camCwOutputPin, LOW);
   digitalWrite(camUpOutputPin, LOW);
   digitalWrite(camDnOutputPin, LOW);
+  
+  for(int i = 0; i < 8; i++) {
+      Shift(1 << i);
+      delay(1500);
+  }
+  
+  Serial.begin(9600);
+
+  while (!Serial)
+    ;
 }
 
 uint8_t CAM_CW =   B10000000;
@@ -100,8 +89,11 @@ uint8_t BOOM_DOWN = B00000001;
 uint8_t currentSpeed = 0;
 uint8_t currentDirection = 0;
 
+uint8_t plat_hook_boom = 0;
 uint8_t rot = 0;
 uint8_t mag = 0;
+
+bool plat_hook_boom_is_on = false;
 
 const unsigned int MAX_LENGTH = 4;
 
@@ -109,7 +101,6 @@ void loop()
 {
   while (Serial.available() > 0)
   {
-
     static char message[MAX_LENGTH];
     static unsigned int message_pos = 0;
 
@@ -132,11 +123,23 @@ void loop()
 void handleMessage(char *buffer)
 {
   String rotationResult = "\"rotation\": {}";
-  
+
+  plat_hook_boom = (uint8_t)buffer[0];
   rot = (uint8_t)buffer[1];
   currentSpeed = (uint8_t)buffer[2];
   mag = (uint8_t)buffer[3];
 
+  // Anything on the platform line (plat, hook, boom)
+  if(plat_hook_boom > 0) {
+    Shift(plat_hook_boom);
+  }
+  else if(plat_hook_boom == 0 && plat_hook_boom_is_on) {
+    Shift(0);
+  }
+
+  plat_hook_boom_is_on = plat_hook_boom != 0;
+
+  /*
   // magic number signaling a change to speed
   if (mag == 255)
   {
@@ -145,7 +148,7 @@ void handleMessage(char *buffer)
   }
   else
   {
-    Shift(buffer[0]);
+    //Shift(buffer[0]);
 
     // turn it all off
     if (rot == 0)
@@ -172,7 +175,7 @@ void handleMessage(char *buffer)
     {
       digitalWrite(magPin, LOW);
     }
-    
+    */
     String rawByteZero = String((uint8_t)buffer[0], BIN);
     String rawByteOne = String(rot, BIN);
     String rawByteTwo = String(currentSpeed, BIN);
@@ -213,7 +216,7 @@ void handleMessage(char *buffer)
     result = String(result + "}");
     
     Serial.println(result);
-  }
+  //}
 }
 
 /**

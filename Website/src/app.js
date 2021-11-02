@@ -78,6 +78,10 @@ angular.module('craneStatic.app', [])
             $ctrl.cam = "2";
         }
 
+        $ctrl.cameraStop = function() {
+            $http.get($ctrl.location + "cam/stop");
+        }  
+
         $ctrl.toggleRelay = function() {
             if(on == 0)
                 on = 1;
