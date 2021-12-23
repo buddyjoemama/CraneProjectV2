@@ -82,15 +82,15 @@ uint8_t BOOM_DOWN = B00000001;
 
 // 4 byte protocol: [b0][b1][b2][b3]
 // b0 = [bu,hu,hd,w,e,s,n,bd]
-// b1 = [cam_cw,cam_ccw,cam_d,cam_u,plat_cw,x,xplat_ccw] = rot
+// b1 = [cam_cw,cam_ccw,cam_d,cam_u,x,x,plat_cw,plat_ccw] = rot
 // b2 = [v,v,v,v,v,v,v,v] = speed
 // b3 = [x,x,x,x,x,x,x,0|1] = mag (0 or 1)
 
-uint8_t currentSpeed = 0;
+uint8_t currentSpeed = 128;
 uint8_t currentDirection = 0;
 
 uint8_t plat_hook_boom = 0;
-uint8_t rot = 0;
+uint8_t camera_platform_rotation = 0;
 uint8_t mag = 0;
 
 bool plat_hook_boom_is_on = false;
@@ -125,7 +125,7 @@ void handleMessage(char *buffer)
   String rotationResult = "\"rotation\": {}";
 
   plat_hook_boom = (uint8_t)buffer[0];
-  rot = (uint8_t)buffer[1];
+  camera_platform_rotation = (uint8_t)buffer[1];
   currentSpeed = (uint8_t)buffer[2];
   mag = (uint8_t)buffer[3];
 
@@ -139,11 +139,7 @@ void handleMessage(char *buffer)
 
   plat_hook_boom_is_on = plat_hook_boom != 0;
 
-  /*
-  // magic number signaling a change to speed
-  if (mag == 255)
-  {
-    currentSpeed = (uint8_t)buffer[2];
+  /*  
     analogWrite(currentDirection, currentSpeed);
   }
   else
@@ -175,7 +171,7 @@ void handleMessage(char *buffer)
     {
       digitalWrite(magPin, LOW);
     }
-    */
+    
     String rawByteZero = String((uint8_t)buffer[0], BIN);
     String rawByteOne = String(rot, BIN);
     String rawByteTwo = String(currentSpeed, BIN);
@@ -214,8 +210,8 @@ void handleMessage(char *buffer)
       //result = String(result + "," + rotationResult);
       result = String(result + "}");
     result = String(result + "}");
-    
-    Serial.println(result);
+    */
+    Serial.println("Ok");
   //}
 }
 

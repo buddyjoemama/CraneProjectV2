@@ -1,22 +1,27 @@
 import serial
-
+import threading
 
 class SerialController(object):
     port = '/dev/ttyACM'
     serConnection = None
 
     def __init__(self):
-       id = 0
-       while id < 10:
-           try:
-               self.port = '/dev/ttyACM' + str(id)
-               self.serConnection = serial.Serial(self.port)
-               break
-           except:
+        self.lock = threading.Lock()
+        id = 0
+        while id < 10:
+            try:
+                self.port = '/dev/ttyACM' + str(id)
+                self.serConnection = serial.Serial(self.port)
+                break
+            except:
                 id += 1
 
     def write(self, north, south, extra):
-        self.serConnection.write([north, south, extra])
+        self.lock.acquire()
+        try:
+            self.serConnection.write([north, south, extra])
+        finally:
+            self.lock.release()
 
     def writeOne(self, magnet):
         self.serConnection.write([magnet])
