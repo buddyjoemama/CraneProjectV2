@@ -4,44 +4,30 @@ from Controls import NorthChip, SouthChip, ExtraChip
 import SerialController
 import signal
 
+import sys
+from MotorControls import DirectionalController, BoomController
+
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
 
-sController = SerialController.SerialController()
+#sController = SerialController.SerialController()
+
+plat = DirectionalController()
+bm = BoomController()
 
 @app.route('/py/control/platform/north/<int:north>/south/<int:south>/east/<int:east>/west/<int:west>')
 def platform(north, east, south, west):    
-    sController.platform(north, east, south, west)
-    result = sController.readResult()
-
-    if(north == 0 and south == 0 
-        and east == 0 and west == 0):
-        sController.platform(north, east, south, west)
-        sController.platform(north, east, south, west)
-
-    return Response(result, status=200)
+    plat.platform(north, south, east, west)
+    return Response(status=200)
 
 @app.route('/py/control/hook/up/<int:up>/down/<int:down>')
 def hook(up, down):
-    sController.hookUpDown(up, down)
-    result = sController.readResult()
-    
-    if(up == 0 and down == 0): 
-        sController.hookUpDown(up, down)
-        sController.hookUpDown(up, down)
-
-    return Response(result, status=200)
+    return Response(status=200)
 
 @app.route('/py/control/boom/up/<int:up>/down/<int:down>')
 def boom(up, down):
-    sController.boomUpDown(up, down)
-    result = sController.readResult()
-
-    if(up == 0 and down == 0):
-        sController.boomUpDown(up, down)
-        sController.boomUpDown(up, down)
-
-    return Response(result, status=200)
+    bm.boom(up, down)
+    return Response(status=200)
 
 @app.route('/py/control/rotation/cw/<int:cw>/ccw/<int:ccw>/speed/<int:speed>')
 def rotate(cw, ccw, speed):

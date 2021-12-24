@@ -31,7 +31,7 @@ class BoomController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        cfg.read('/home/pi/Projects/CraneProjectV2/Hardware/crane.cfg')
+        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
         self.boomUpDown = CraneMotor(cfg.getint('ADDRESSES', 'BOOM'), cfg.getint('BOOM', 'UP_DOWN'))
  
     def up(self):
@@ -43,6 +43,14 @@ class BoomController(object):
     def stop(self):
         self.boomUpDown.stop()
 
+    def boom(self, up, down):
+        self.stop()
+        
+        if(up):
+            self.up()
+        elif(down):
+            self.down()
+
 #
 # Controls for the platform
 #
@@ -52,7 +60,7 @@ class DirectionalController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        print (cfg.read('/home/pi/Projects/CraneProjectV2/Hardware/crane.cfg'))
+        print (cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg'))
 
         self.platEastWest = CraneMotor(cfg.getint('ADDRESSES', 'PLATFORM'), cfg.getint('PLATFORM', 'EAST_WEST'))
         self.platNorthSouth = CraneMotor(cfg.getint('ADDRESSES', 'PLATFORM'), cfg.getint('PLATFORM', 'NORTH_SOUTH'))
