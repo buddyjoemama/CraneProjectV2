@@ -22,8 +22,30 @@ class CraneMotor(object):
     
     def stop(self):
         MOTOR.dcSTOP(self.address, self.motor)
-        
-##
+
+#
+# Boom
+#
+class BoomController(object):
+    boomUpDown = None
+
+    def __init__(self):
+        cfg = ConfigParser()
+        cfg.read('/home/pi/Projects/CraneProjectV2/Hardware/crane.cfg')
+        self.boomUpDown = CraneMotor(cfg.getint('ADDRESSES', 'BOOM'), cfg.getint('BOOM', 'UP_DOWN'))
+ 
+    def up(self):
+        self.boomUpDown.forward()
+    
+    def down(self):
+        self.boomUpDown.reverse()
+
+    def stop(self):
+        self.boomUpDown.stop()
+
+#
+# Controls for the platform
+#
 class DirectionalController(object):
     platEastWest = None
     platNorthSouth = None
@@ -47,3 +69,7 @@ class DirectionalController(object):
             self.platEastWest.forward()
         elif(west):
             self.platEastWest.reverse()
+
+    def stop(self):
+        self.platNorthSouth.stop()
+        self.platEastWest.stop()

@@ -1,6 +1,6 @@
 import time                                  #import the time module
 import piplates.MOTORplate as MOTOR          #import the MOTORplate module
-from MotorControls import CraneMotor, DirectionalController
+from MotorControls import CraneMotor, DirectionalController, BoomController
 
 # m1 = CraneMotor(0, 1)
 # m1.forward()
@@ -18,16 +18,21 @@ from MotorControls import CraneMotor, DirectionalController
 # time.sleep(5)
 # m2.stop()
 
-m3 = DirectionalController()
-m3.platform(1, 0, 0, 0)
-time.sleep(5)
-m3.platform(0, 1, 0, 0)
-time.sleep(5)
-m3.platform(0,0, 1, 0)
-time.sleep(5)
-m3.platform(0,0,0,1)
-time.sleep(5)
-m3.platform(0,0,0,0)
+# m3 = DirectionalController()
+# m3.platform(1, 0, 0, 0)
+# time.sleep(5)
+# m3.platform(0, 1, 0, 0)
+# time.sleep(5)
+# m3.platform(0,0, 1, 0)
+# time.sleep(5)
+# m3.platform(0,0,0,1)
+# time.sleep(5)
+# m3.platform(0,0,0,0)
+
+m4 = BoomController()
+m4.up()
+m4.down()
+m4.stop()
 
 # MOTOR.dcCONFIG(0,1,'ccw',100.0,0)           #configure dc motor 2 on the MOTORplate at address 0 being configured for clockwise 
 # MOTOR.dcCONFIG(0,2,'ccw',100.0,0)   
