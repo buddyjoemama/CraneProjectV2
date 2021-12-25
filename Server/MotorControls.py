@@ -52,6 +52,34 @@ class BoomController(object):
             self.down()
 
 #
+# Hook
+#
+class HookController(object):
+    boomUpDown = None
+
+    def __init__(self):
+        cfg = ConfigParser()
+        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
+        self.boomUpDown = CraneMotor(cfg.getint('ADDRESSES', 'HOOK'), cfg.getint('HOOK', 'UP_DOWN'))
+ 
+    def up(self):
+        self.boomUpDown.forward()
+    
+    def down(self):
+        self.boomUpDown.reverse()
+
+    def stop(self):
+        self.boomUpDown.stop()
+
+    def hook(self, up, down):
+        self.stop()
+        
+        if(up):
+            self.up()
+        elif(down):
+            self.down()
+
+#
 # Controls for the platform
 #
 class DirectionalController(object):

@@ -5,7 +5,7 @@ import SerialController
 import signal
 
 import sys
-from MotorControls import DirectionalController, BoomController
+from MotorControls import DirectionalController, BoomController, HookController
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
@@ -14,6 +14,7 @@ cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
 
 plat = DirectionalController()
 bm = BoomController()
+hk = HookController()
 
 @app.route('/py/control/platform/north/<int:north>/south/<int:south>/east/<int:east>/west/<int:west>')
 def platform(north, east, south, west):    
@@ -22,6 +23,7 @@ def platform(north, east, south, west):
 
 @app.route('/py/control/hook/up/<int:up>/down/<int:down>')
 def hook(up, down):
+    hk.hook(up, down)
     return Response(status=200)
 
 @app.route('/py/control/boom/up/<int:up>/down/<int:down>')
