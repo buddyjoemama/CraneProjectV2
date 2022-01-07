@@ -109,3 +109,30 @@ class DirectionalController(object):
     def stop(self):
         self.platNorthSouth.stop()
         self.platEastWest.stop()
+
+class PanAndTiltController(object): 
+    camUpDown = None
+    camRightLeft = None
+
+    def __init__(self):
+        cfg = ConfigParser()
+        print (cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg'))
+
+        self.camUpDown = CraneMotor(cfg.getint('ADDRESSES', 'CAMERA'), cfg.getint('CAMERA', 'UP_DOWN'))
+        self.camRightLeft = CraneMotor(cfg.getint('ADDRESSES', 'CAMERA'), cfg.getint('CAMERA', 'LEFT_RIGHT'))
+    
+    def stop(self):
+        self.camRightLeft.stop()
+        self.camUpDown.stop()
+
+    def up(self):
+        self.camUpDown.forward()
+    
+    def down(self):
+        self.camUpDown.reverse()
+
+    def left(self):
+        self.camRightLeft.forward()
+
+    def right(self):
+        self.camRightLeft.reverse()
