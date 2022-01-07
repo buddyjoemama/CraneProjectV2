@@ -5,7 +5,7 @@ import SerialController
 import signal
 
 import sys
-from MotorControls import DirectionalController, BoomController, HookController
+from MotorControls import DirectionalController, BoomController, HookController, PanAndTiltController, MagnetController
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
@@ -15,6 +15,8 @@ cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
 plat = DirectionalController()
 bm = BoomController()
 hk = HookController()
+cam = PanAndTiltController()
+mag = MagnetController()
 
 @app.route('/py/control/platform/north/<int:north>/south/<int:south>/east/<int:east>/west/<int:west>')
 def platform(north, east, south, west):    
@@ -34,41 +36,41 @@ def boom(up, down):
 @app.route('/py/control/rotation/cw/<int:cw>/ccw/<int:ccw>/speed/<int:speed>')
 def rotate(cw, ccw, speed):
     sController.rotation(cw, ccw, speed)
-    return Response(sController.readResult(), status=200)
+    return Response(status=200)
 
 @app.route('/py/control/magnet/<int:val>')
 def magnet(val):
-    sController.magnet(val)
-    return Response(sController.readResult(), status=200)
+    mag.activate(val)
+    return Response(status=200)
 
 @app.route('/py/control/ping')
 def ping():
-    return Response(sController.readResult(), status=200)
+    return Response(status=200)
 
 @app.route('/py/control/cam/up')
 def camUp():
-    sController.camera_Up()
-    return Response(sController.readResult(), status=200)
+    cam.up()
+    return Response(status=200)
 
 @app.route('/py/control/cam/down')
 def camDown():
-    sController.camera_Down()
-    return Response(sController.readResult(), status=200)
+    cam.down()
+    return Response(status=200)
 
 @app.route('/py/control/cam/cw')
 def cameraCW():
-    sController.camera_Cw()
-    return Response(sController.readResult(), status=200)
+    cam.right()
+    return Response(status=200)
 
 @app.route('/py/control/cam/ccw')
 def cameraCCW():
-    sController.camera_Ccw()
-    return Response(sController.readResult(), status=200)
+    cam.left()
+    return Response(status=200)
 
 @app.route('/py/control/cam/stop')
 def cameraStop():
-    sController.cameraOff()
-    return Response(sController.readResult(), status=200)
+    cam.stop()
+    return Response(status=200)
 
 @app.route('/py/control/off')
 def off():

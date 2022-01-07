@@ -23,6 +23,27 @@ class CraneMotor(object):
     def stop(self):
         MOTOR.dcSTOP(self.address, self.motor)
 
+class MagnetController(object):
+    magOnOff = None
+
+    def __init__(self):
+        cfg = ConfigParser()
+        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
+        self.magOnOff = CraneMotor(cfg.getint('ADDRESSES', 'MAG'), cfg.getint('MAG', 'ON_OFF'))
+
+    def off(self):
+        self.magOnOff.stop()
+
+    def on(self):
+        self.magOnOff.reverse()
+
+    def activate(self, val):
+        if(val):
+            self.on()
+        else:
+            self.off()
+ 
+
 #
 # Boom
 #

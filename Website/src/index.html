@@ -54,16 +54,16 @@
             </div>
             <div class="camera-controls">
                 <div class="north direction">
-                    <button type="button" ng-disabled="$ctrl.cam == '2'" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraCW()" class="btn btn-primary">Up</button>
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraUp()" class="btn btn-primary">Up</button>
                 </div>
                 <div class="south direction">
-                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraCCW()">Down</button>
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraDown()">Down</button>
                 </div>
                 <div class="east direction">
-                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraDown()">Right</button>
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraCW()">Right</button>
                 </div>
                 <div class="west direction">
-                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraUp()">Left</button>
+                    <button type="button" ng-disabled="$ctrl.cam == '2'" class="btn btn-primary" ng-mouseup="$ctrl.cameraStop()" ng-mousedown="$ctrl.cameraCCW()">Left</button>
                 </div>            
             </div>
         </div>    
