@@ -43,7 +43,30 @@ class MagnetController(object):
         else:
             self.off()
  
+class CabController(object):
+    cab = None
 
+    def __init__(self):
+        cfg = ConfigParser()
+        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
+        self.cab = CraneMotor(cfg.getint('ADDRESSES', 'CAB'), cfg.getint('CAB', 'CW_CCW'))
+
+    def CW(self):
+        self.cab.forward()
+
+    def CCW(self):
+        self.cab.reverse()
+
+    def stop(self):
+        self.cab.stop()
+
+    def activate(self, cw, ccw):
+        if(cw):
+            self.CW()
+        elif(ccw):
+            self.CCW()
+        else:
+            self.stop()
 #
 # Boom
 #

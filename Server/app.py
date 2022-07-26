@@ -5,18 +5,17 @@ import SerialController
 import signal
 
 import sys
-from MotorControls import DirectionalController, BoomController, HookController, PanAndTiltController, MagnetController
+from MotorControls import DirectionalController, BoomController, HookController, PanAndTiltController, MagnetController, CabController
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
-
-#sController = SerialController.SerialController()
 
 plat = DirectionalController()
 bm = BoomController()
 hk = HookController()
 cam = PanAndTiltController()
 mag = MagnetController()
+cab = CabController()
 
 @app.route('/py/control/platform/north/<int:north>/south/<int:south>/east/<int:east>/west/<int:west>')
 def platform(north, east, south, west):    
@@ -35,7 +34,7 @@ def boom(up, down):
 
 @app.route('/py/control/rotation/cw/<int:cw>/ccw/<int:ccw>/speed/<int:speed>')
 def rotate(cw, ccw, speed):
-    sController.rotation(cw, ccw, speed)
+    cab.activate(cw, ccw)
     return Response(status=200)
 
 @app.route('/py/control/magnet/<int:val>')
@@ -74,8 +73,12 @@ def cameraStop():
 
 @app.route('/py/control/off')
 def off():
-    sController.off()
-    return Response(sController.readResult(), status=200)
+    cam.stop()
+    mag.off()
+    bm.stop()
+    hk.stop()
+    plat.stop()
+    return Response(status=200)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host='0.0.0.0')
