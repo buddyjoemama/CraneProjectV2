@@ -28,7 +28,7 @@ class MagnetController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
+        cfg.read('/home/pi/CraneProjectV2/Server/crane.cfg')
         self.magOnOff = CraneMotor(cfg.getint('ADDRESSES', 'MAG'), cfg.getint('MAG', 'ON_OFF'))
 
     def off(self):
@@ -48,7 +48,7 @@ class CabController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
+        cfg.read('/home/pi/CraneProjectV2/Server/crane.cfg')
         self.cab = CraneMotor(cfg.getint('ADDRESSES', 'CAB'), cfg.getint('CAB', 'CW_CCW'))
 
     def CW(self):
@@ -75,7 +75,7 @@ class BoomController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
+        cfg.read('/home/pi/CraneProjectV2/Server/crane.cfg')
         self.boomUpDown = CraneMotor(cfg.getint('ADDRESSES', 'BOOM'), cfg.getint('BOOM', 'UP_DOWN'))
  
     def up(self):
@@ -103,7 +103,7 @@ class HookController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg')
+        cfg.read('/home/pi/CraneProjectV2/Server/crane.cfg')
         self.boomUpDown = CraneMotor(cfg.getint('ADDRESSES', 'HOOK'), cfg.getint('HOOK', 'UP_DOWN'))
  
     def up(self):
@@ -132,7 +132,7 @@ class DirectionalController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        print (cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg'))
+        print (cfg.read('/home/pi/CraneProjectV2/Server/crane.cfg'))
 
         self.platEastWest = CraneMotor(cfg.getint('ADDRESSES', 'PLATFORM'), cfg.getint('PLATFORM', 'EAST_WEST'))
         self.platNorthSouth = CraneMotor(cfg.getint('ADDRESSES', 'PLATFORM'), cfg.getint('PLATFORM', 'NORTH_SOUTH'))
@@ -160,7 +160,7 @@ class PanAndTiltController(object):
 
     def __init__(self):
         cfg = ConfigParser()
-        print (cfg.read('/home/pi/Projects/CraneProjectV2/Server/crane.cfg'))
+        print (cfg.read('/home/pi/CraneProjectV2/Server/crane.cfg'))
 
         self.camUpDown = CraneMotor(cfg.getint('ADDRESSES', 'CAMERA'), cfg.getint('CAMERA', 'UP_DOWN'))
         self.camRightLeft = CraneMotor(cfg.getint('ADDRESSES', 'CAMERA'), cfg.getint('CAMERA', 'LEFT_RIGHT'))

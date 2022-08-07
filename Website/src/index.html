@@ -7,7 +7,7 @@
     </head>
     <body ng-controller="craneController as $ctrl">
         <div style="text-align:center;">
-            <img src="/cam/{{$ctrl.cam}}" width="800" height="600">
+            <img src="/cam/{{$ctrl.cam}}" width="800" height="75%">
         </div>
         <div class="control-panel">
             <div class="platform">
@@ -45,7 +45,7 @@
             </div>
             <div class="magnet">
                 <div>Magnet</div>
-                <button type="button" class="btn btn-primary" ng-click="$ctrl.toggleRelay()">On</button>
+                <button type="button" class="btn btn-primary" ng-class="$ctrl.magnet ? 'magOn' : ''" ng-click="$ctrl.toggleRelay()">{{$ctrl.magnet ? 'On' : 'Off'}}</button>
             </div>
             <div class="cab">
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.cameraOne()">PT</button>

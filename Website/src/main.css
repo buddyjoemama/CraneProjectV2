@@ -64,6 +64,7 @@ div.platform {
   max-width: 100px;
 }
 
+.magOn,
 button.btn:active {
   background-color: red !important;
 }

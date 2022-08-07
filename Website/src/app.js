@@ -4,7 +4,7 @@ angular.module('craneStatic.app', [])
         $ctrl.location = "/py/control/";
         $ctrl.cam = "1";
         $ctrl.speed = 125;
-        var on = 0;
+        $ctrl.magnet = false;
 
         $ctrl.platform = function(n, s, e, w) {
             $http.get($ctrl.location + "platform/north/" + n + "/south/" + s + "/east/" + e + "/west/" + w);
@@ -83,12 +83,8 @@ angular.module('craneStatic.app', [])
         }  
 
         $ctrl.toggleRelay = function() {
-            if(on == 0)
-                on = 1;
-            else
-                on = 0;
-            
-            $http.get($ctrl.location + "magnet/" + on);
+            $ctrl.magnet = !$ctrl.magnet;            
+            $http.get($ctrl.location + "magnet/" + ($ctrl.magnet ? '1' : '0'));
         }
         
         $ctrl.stop = function() {
