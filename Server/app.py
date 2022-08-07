@@ -10,8 +10,6 @@ from MotorControls import DirectionalController, BoomController, HookController,
 app = Flask(__name__)
 cors = CORS(app, resources={r"/py/control/*": {"origins": "*"}})
 
-#sController = SerialController.SerialController()
-
 plat = DirectionalController()
 bm = BoomController()
 hk = HookController()

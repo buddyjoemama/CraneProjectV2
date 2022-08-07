@@ -14,8 +14,6 @@ services:
         dockerfile: Dockerfile
       network_mode: "host"
     server:
-      devices: 
-        - "/dev/ttyACM0"
       ports: 
         - "5000:5000"
       build: 

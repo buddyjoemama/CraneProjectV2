@@ -2,16 +2,8 @@ services:
   camera:
     devices: 
       - "/dev/video0:/dev/video1"
-      - "/dev/video0:/dev/video2"
+      - "/dev/video2:/dev/video2"
     build: 
       context: ./Camera
       dockerfile: Dockerfile
     network_mode: "host"
-  server:
-    devices: 
-      - "/dev/ttyACM0"
-    ports: 
-      - "5000:5000"
-    build: 
-      context: ./Server
-      dockerfile: Dockerfile
