@@ -15,7 +15,7 @@ services:
       network_mode: "host"
     server:
       ports: 
-        - "5000:5000"
+        - "5001:5000"
       build: 
         context: ./Server
         dockerfile: Dockerfile
